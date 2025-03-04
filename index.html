@@ -6,7 +6,7 @@
     <title>Rabbit Jump</title>
     <style>
         body {
-            background: url('14-tileable-seamless-grass-texture.jpg') repeat;
+            background: url('grass-texture.jpg') repeat; /* Đổi ảnh nền thành grass-texture */
             background-size: cover;
             overflow: hidden;
             margin: 0;
@@ -15,26 +15,44 @@
             position: absolute;
             width: 100px;
             height: auto;
-            transition: transform 0.5s ease-in-out;
-        }
-        .jumping {
-            animation: jump 0.3s infinite alternate ease-in-out;
-            content: url('rabbit-jump.png'); /* Thay bằng ảnh thỏ nhảy */
-        }
-        .landing {
-            content: url('rabit-sjump.png'); /* Thay bằng ảnh thỏ chạm đất */
-        }
-        @keyframes jump {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-20px); }
+            left: 50px; /* Vị trí ban đầu */
+            top: 50px;
         }
     </style>
 </head>
 <body>
-    <img id="rabbit" src="rabbit_idle.png" alt="Rabbit"> <!-- Ảnh mặc định -->
+    <img id="rabbit" src="rabbit-idle.png" alt="Rabbit">
     <script>
         document.addEventListener("click", function(event) {
             let rabbit = document.getElementById("rabbit");
+            let startX = rabbit.offsetLeft;
+            let startY = rabbit.offsetTop;
+            let targetX = event.clientX - rabbit.clientWidth / 2;
+            let targetY = event.clientY - rabbit.clientHeight / 2;
+            let duration = 1000; // 1 giây để nhảy tới
+            let startTime = null;
+
+            function animateJump(time) {
+                if (!startTime) startTime = time;
+                let progress = (time - startTime) / duration;
+                
+                if (progress < 1) {
+                    let newX = startX + (targetX - startX) * progress;
+                    let newY = startY + (targetY - startY) * progress - Math.sin(progress * Math.PI) * 50; // Tạo nhảy lên xuống
+                    rabbit.style.left = newX + "px";
+                    rabbit.style.top = newY + "px";
+                    requestAnimationFrame(animateJump);
+                } else {
+                    rabbit.style.left = targetX + "px";
+                    rabbit.style.top = targetY + "px";
+                }
+            }
+
+            requestAnimationFrame(animateJump);
+        });
+    </script>
+</body>
+</html>            let rabbit = document.getElementById("rabbit");
             let x = event.clientX - rabbit.width / 2;
             let y = event.clientY - rabbit.height / 2;
 
