@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rabbit Game</title>
+    <title>Rabbit Jump</title>
     <style>
         body {
-            background: url('14-tileable-seamless-grass-texture.jpg ') repeat;
+            background: url('grass-texture.jpg') repeat;
             background-size: cover;
             overflow: hidden;
             margin: 0;
@@ -17,16 +17,40 @@
             height: auto;
             transition: transform 0.5s ease-in-out;
         }
+        .jumping {
+            animation: jump 0.3s infinite alternate ease-in-out;
+            content: url('rabbit_jump.png'); /* Thay bằng ảnh thỏ nhảy */
+        }
+        .landing {
+            content: url('rabbit_land.png'); /* Thay bằng ảnh thỏ chạm đất */
+        }
+        @keyframes jump {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-20px); }
+        }
     </style>
 </head>
 <body>
-    <img id="rabbit" src="rabbit.png" alt="Rabbit">
+    <img id="rabbit" src="rabbit_idle.png" alt="Rabbit"> <!-- Ảnh mặc định -->
     <script>
         document.addEventListener("click", function(event) {
             let rabbit = document.getElementById("rabbit");
             let x = event.clientX - rabbit.width / 2;
             let y = event.clientY - rabbit.height / 2;
+
+            rabbit.classList.add("jumping"); // Hiệu ứng nhảy + đổi ảnh
+
             rabbit.style.transform = `translate(${x}px, ${y}px)`;
+
+            setTimeout(() => {
+                rabbit.classList.remove("jumping");
+                rabbit.classList.add("landing"); // Ảnh chạm đất
+            }, 500);
+
+            setTimeout(() => {
+                rabbit.classList.remove("landing");
+                rabbit.src = "rabbit_idle.png"; // Quay lại trạng thái bình thường
+            }, 800);
         });
     </script>
 </body>
