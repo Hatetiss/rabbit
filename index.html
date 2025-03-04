@@ -6,69 +6,62 @@
     <title>Rabbit Jump</title>
     <style>
         body {
-            background: url('grass-texture.jpg') repeat; /* Đổi ảnh nền thành grass-texture */
+            background: url('grass-texture.jpg') repeat;
             background-size: cover;
             overflow: hidden;
             margin: 0;
         }
+
         #rabbit {
             position: absolute;
             width: 100px;
             height: auto;
-            left: 50px; /* Vị trí ban đầu */
-            top: 50px;
+            transition: transform 0.2s linear;
+        }
+
+        .jumping {
+            animation: jump 0.3s infinite alternate ease-in-out;
+            content: url('rabbit-jump.png'); /* Ảnh thỏ nhảy */
+        }
+
+        .landing {
+            content: url('rabbit-land.png'); /* Ảnh thỏ chạm đất */
+        }
+
+        @keyframes jump {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-30px); }
         }
     </style>
 </head>
 <body>
     <img id="rabbit" src="rabbit-idle.png" alt="Rabbit">
+
     <script>
         document.addEventListener("click", function(event) {
             let rabbit = document.getElementById("rabbit");
             let startX = rabbit.offsetLeft;
             let startY = rabbit.offsetTop;
-            let targetX = event.clientX - rabbit.clientWidth / 2;
-            let targetY = event.clientY - rabbit.clientHeight / 2;
-            let duration = 1000; // 1 giây để nhảy tới
-            let startTime = null;
+            let targetX = event.clientX - rabbit.width / 2;
+            let targetY = event.clientY - rabbit.height / 2;
+            
+            let distance = Math.sqrt(Math.pow(targetX - startX, 2) + Math.pow(targetY - startY, 2));
+            let duration = distance * 2; // Tăng tốc độ di chuyển
 
-            function animateJump(time) {
-                if (!startTime) startTime = time;
-                let progress = (time - startTime) / duration;
-                
-                if (progress < 1) {
-                    let newX = startX + (targetX - startX) * progress;
-                    let newY = startY + (targetY - startY) * progress - Math.sin(progress * Math.PI) * 50; // Tạo nhảy lên xuống
-                    rabbit.style.left = newX + "px";
-                    rabbit.style.top = newY + "px";
-                    requestAnimationFrame(animateJump);
-                } else {
-                    rabbit.style.left = targetX + "px";
-                    rabbit.style.top = targetY + "px";
-                }
-            }
+            rabbit.classList.add("jumping");
 
-            requestAnimationFrame(animateJump);
-        });
-    </script>
-</body>
-</html>            let rabbit = document.getElementById("rabbit");
-            let x = event.clientX - rabbit.width / 2;
-            let y = event.clientY - rabbit.height / 2;
-
-            rabbit.classList.add("jumping"); // Hiệu ứng nhảy + đổi ảnh
-
-            rabbit.style.transform = `translate(${x}px, ${y}px)`;
+            rabbit.style.transition = `transform ${duration}ms linear`;
+            rabbit.style.transform = `translate(${targetX}px, ${targetY}px)`;
 
             setTimeout(() => {
                 rabbit.classList.remove("jumping");
-                rabbit.classList.add("landing"); // Ảnh chạm đất
-            }, 500);
+                rabbit.classList.add("landing");
+            }, duration - 100);
 
             setTimeout(() => {
                 rabbit.classList.remove("landing");
-                rabbit.src = "rabit-sit.png"; // Quay lại trạng thái bình thường
-            }, 800);
+                rabbit.src = "rabbit-idle.png";
+            }, duration);
         });
     </script>
 </body>
