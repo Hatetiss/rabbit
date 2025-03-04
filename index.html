@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Con Thỏ Chạy Theo Click</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      /* Background họa tiết sân cỏ sử dụng SVG nhúng */
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100' height='100' fill='%237cfc00'/><circle cx='20' cy='20' r='5' fill='%2332cd32'/><circle cx='60' cy='40' r='5' fill='%2332cd32'/><circle cx='80' cy='80' r='5' fill='%2332cd32'/><circle cx='40' cy='70' r='5' fill='%2332cd32'/></svg>");
+      background-repeat: repeat;
+    }
+    #rabbit {
+      position: absolute;
+      width: 100px;
+      transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
+    }
+    /* Class thêm hiệu ứng "nhảy" khi con thỏ di chuyển */
+    .running {
+      animation: run-animation 0.5s ease;
+    }
+    @keyframes run-animation {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hình ảnh con thỏ được nhúng qua data URI (SVG) -->
+  <img id="rabbit" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><circle cx='100' cy='70' r='30' fill='white' stroke='black' stroke-width='3'/><ellipse cx='100' cy='130' rx='40' ry='50' fill='white' stroke='black' stroke-width='3'/><path d='M70,30 Q80,0 90,30' stroke='black' stroke-width='3' fill='none'/><path d='M110,30 Q120,0 130,30' stroke='black' stroke-width='3' fill='none'/><circle cx='90' cy='70' r='3' fill='black'/><circle cx='110' cy='70' r='3' fill='black'/><path d='M100,80 Q105,90 100,90 Q95,90 100,80' fill='black'/></svg>" alt="Con Thỏ">
+  
+  <script>
+    // Khi người dùng click vào trang, con thỏ sẽ di chuyển tới vị trí click kèm hiệu ứng "nhảy"
+    document.addEventListener('click', function(event) {
+      const x = event.clientX;
+      const y = event.clientY;
+      
+      const rabbit = document.getElementById('rabbit');
+      // Tính toán offset để trung tâm của con thỏ trùng với vị trí click
+      const rect = rabbit.getBoundingClientRect();
+      const offsetX = rect.width / 2;
+      const offsetY = rect.height / 2;
+      
+      // Thêm class để kích hoạt animation
+      rabbit.classList.add('running');
+      
+      // Cập nhật vị trí mới
+      rabbit.style.left = (x - offsetX) + 'px';
+      rabbit.style.top = (y - offsetY) + 'px';
+      
+      // Gỡ bỏ class animation sau 0.5 giây
+      setTimeout(function() {
+        rabbit.classList.remove('running');
+      }, 500);
+    });
+  </script>
+</body>
+</html>
