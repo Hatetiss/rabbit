@@ -21,11 +21,11 @@
 
         .jumping {
             animation: jump 0.3s infinite alternate ease-in-out;
-            content: url('rabbit-jump.png'); /* Ảnh thỏ nhảy */
+            content: url('rabit-jump.png'); /* Ảnh thỏ nhảy */
         }
 
         .landing {
-            content: url('rabbit-land.png'); /* Ảnh thỏ chạm đất */
+            content: url('rabbit-sjump.png'); /* Ảnh thỏ chạm đất */
         }
 
         @keyframes jump {
@@ -60,7 +60,7 @@
 
             setTimeout(() => {
                 rabbit.classList.remove("landing");
-                rabbit.src = "rabbit-idle.png";
+                rabbit.src = "rabit-sit.png";
             }, duration);
         });
     </script>
