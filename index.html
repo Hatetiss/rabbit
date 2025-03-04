@@ -6,7 +6,7 @@
     <title>Rabbit Game</title>
     <style>
         body {
-            background: url('https://img.freepik.com/free-vector/seamless-grass-texture-pattern_1308-93261.jpg') repeat;
+            background: url('grass-texture.jpg') repeat;
             background-size: cover;
             overflow: hidden;
             margin: 0;
@@ -20,7 +20,7 @@
     </style>
 </head>
 <body>
-    <img id="rabbit" src="https://www.vecteezy.com/png/3015519-cute-rabbit" alt="Rabbit">
+    <img id="rabbit" src="rabbit.png" alt="Rabbit">
     <script>
         document.addEventListener("click", function(event) {
             let rabbit = document.getElementById("rabbit");
@@ -29,28 +29,5 @@
             rabbit.style.transform = `translate(${x}px, ${y}px)`;
         });
     </script>
-</body>
-</html>      const x = event.clientX;
-      const y = event.clientY;
-      
-      const rabbit = document.getElementById('rabbit');
-      // Tính toán offset để trung tâm của con thỏ trùng với vị trí click
-      const rect = rabbit.getBoundingClientRect();
-      const offsetX = rect.width / 2;
-      const offsetY = rect.height / 2;
-      
-      // Thêm class để kích hoạt animation
-      rabbit.classList.add('running');
-      
-      // Cập nhật vị trí mới
-      rabbit.style.left = (x - offsetX) + 'px';
-      rabbit.style.top = (y - offsetY) + 'px';
-      
-      // Gỡ bỏ class animation sau 0.5 giây
-      setTimeout(function() {
-        rabbit.classList.remove('running');
-      }, 500);
-    });
-  </script>
 </body>
 </html>
